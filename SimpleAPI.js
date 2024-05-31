@@ -37,9 +37,9 @@ app.get('/phim', function (req, res) {
     })
     
     app.post('/phim', function (req, res) {
-        const { tieude,phathanh,soluongtap,mieuta,lichchieu} = req.body
+        const { id,tieude,phathanh,soluongtap,mieuta,lichchieu } = req.body
         //sample { id: 4, deviceName: 'DHT22' }
-        var sql = "INSERT INTO phim (tieude,phathanh,soluongtap,mieuta,lichchieu) VALUES ('"+tieude+"', '"+phathanh+"', '"+soluongtap+"', '"+mieuta+"', '"+lichchieu+"')";
+        var sql = "INSERT INTO phim (id,tieude,phathanh,soluongtap,mieuta,lichchieu) VALUES ('"+id+"','"+tieude+"','"+phathanh+"','"+soluongtap+"','"+mieuta+"','"+lichchieu+"')";
         con.query(sql, function(err, results) {
         if (err) throw err;
         res.send('Add PHIM ok');
@@ -55,7 +55,25 @@ app.get('/phim', function (req, res) {
             });
             }
             )
-            
+        app.put('/phim/:id', function (req, res) {
+            const { id } = req.params
+            const { tieude,phathanh,soluongtap,mieuta,lichchieu } = req.body
+            var sql = "UPDATE phim SET tieude = '"+tieude+"', phathanh = '"+phathanh+"', soluongtap = '"+soluongtap+"', mieuta = '"+mieuta+"', lichchieu = '"+lichchieu+"' WHERE id = '"+id+"'";
+            con.query(sql, function(err, results) {
+            if (err) throw err;
+            res.send('Update PHIM ok');
+            });
+            }
+            )
+    app.get('/phim/:id', function (req, res) {
+        const { id } = req.params
+        var sql = "SELECT * FROM phim WHERE id = '"+id+"'";
+        con.query(sql, function(err, results) {
+        if (err) throw err;
+        res.send(results);
+        });
+        }
+    )
      
 var server = app.listen(2304, function () {
 var host = server.address().address
